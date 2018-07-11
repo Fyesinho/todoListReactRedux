@@ -1,26 +1,22 @@
 import React, {Component} from 'react';
-import store from "../store";
-
+import {connect} from 'react-redux';
 
 class List extends Component {
-    constructor() {
-        super();
-        this.state = {
-            list: []
-        };
-        store.subscribe(() => {
-            this.setState({
-                list: store.getState().list
-            })
-        })
-    }
     render() {
-        return(
+        const {list} = this.props;
+        return (
             <ul>
-                {this.state.list && this.state.list.map((value, index) => <li key={index}>{value}<button>Eliminar</button></li>)}
+                {list && list.map((value) => <li key={value.id}>{value.currentItem}
+                    <button>Eliminar</button>
+                </li>)}
             </ul>
         )
     }
 }
 
-export default List;
+const mapStateToProps = state => {
+    const {Todos} = state;
+    return Todos;
+};
+
+export default connect(mapStateToProps)(List);

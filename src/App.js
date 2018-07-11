@@ -4,9 +4,10 @@ import Form from "./Components/Form";
 import List from "./Components/List";
 import {Provider} from 'react-redux';
 import {createStore, combineReducers} from 'redux';
+import ListReducers from './store';
 
 const store = createStore(combineReducers({
-    // Todos:
+    Todos: ListReducers
 }));
 
 class App extends Component {

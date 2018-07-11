@@ -1,4 +1,3 @@
-import {createStore} from 'redux';
 const ADD_TODO = 'ADD_TODO';
 const ADD_ITEM = 'ADD_ITEM';
 const DELETE_TODO = 'DELETE_TODO';
@@ -8,26 +7,32 @@ export const addTodo = payload =>({
     payload
 });
 
+export const addItem = payload =>({
+    type: ADD_ITEM,
+    payload
+});
 
+const initialState = {
+    list: [],
+};
 
-const reducer = (state, action) => {
+export default function reducer(state = initialState, action) {
     switch (action.type) {
         case ADD_TODO: {
             return {
                 ...state,
-                list: state.list.concat(state.payload)
+                list: state.list.concat(action.payload)
             }
         }
         case ADD_ITEM: {
             return {
                 ...state,
-                currentItem: action.item_temp
+                currentItem: action.payload
             }
         }
         case DELETE_TODO: {
             return {
                 ...state,
-
             }
         }
         default:{
@@ -35,5 +40,3 @@ const reducer = (state, action) => {
         }
     }
 };
-
-export default createStore(reducer, {list: []});

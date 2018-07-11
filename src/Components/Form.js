@@ -1,31 +1,22 @@
 import React, {Component} from 'react';
-import store, {addTodo} from '../store';
+import {addItem, addTodo} from '../store';
 import {connect} from 'react-redux';
 
 class Form extends Component {
-    constructor() {
-        super();
-        this.state = {
-            item: []
-        };
-    }
-
-    addTodo = e => {
+    changeClick = e => {
         e.preventDefault();
-        const {item} = this.state;
-        addTodo({...item, id: Math.random().toString(36)});
+        const {currentItem, addTodo} = this.props;
+        addTodo({currentItem, id: Math.random().toString(36)});
     };
 
     changeItem = ({target}) => {
-        store.dispatch({
-            type: "ADD_ITEM",
-            item_temp: target.value
-        });
+        const {addItem} = this.props;
+        addItem(target.value);
     };
 
     render() {
-        return(
-            <form onSubmit={this.addTodo}>
+        return (
+            <form onSubmit={this.changeClick}>
                 <input type="text" onChange={this.changeItem} placeholder="Ingresa algo..."/>
                 <button type="submit">Guardar</button>
             </form>
@@ -34,8 +25,14 @@ class Form extends Component {
 }
 
 const mapStateToProps = state => {
-    const {list} = state;
-    return list;
+    const {Todos} = state;
+    return Todos;
 };
 
-export default connect(mapStateToProps)(Form);
+const mapDispatchToProps = dispatch => ({
+    addTodo: payload => dispatch(addTodo(payload)),
+    addItem: payload => dispatch(addItem(payload))
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form);
